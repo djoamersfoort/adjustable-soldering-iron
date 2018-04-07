@@ -23,12 +23,12 @@ int configuredTemperature = 350;
 
 
 //Pins
-int mosfetPin = 2;
-int displayDataPin = 4;
-int rotaryDataPin = 5;
-int displayClockPin = 6;
-int rotaryClockPin = 7;
-int rotaryToggleButtonPin = 9;
+int rotaryClockPin = 2;
+int rotaryDataPin = 3;
+int rotaryToggleButtonPin = 4;
+int mosfetPin = 6;
+int displayClockPin = 9;
+int displayDataPin = 10;
 int thermoSOPin = A0;
 int thermoCSPin = A1;
 int thermoClockPin = A2;
@@ -51,8 +51,7 @@ TM1637Display display(displayClockPin, displayDataPin);
 MAX6675 thermocouple(thermoClockPin, thermoCSPin, thermoSOPin);
 
 
-void setup()
-{
+void setup() {
   //Activate the display
   for (byte i = 0; i < 4; i++) {
     display.setSegments(0, 1, i);
@@ -62,14 +61,12 @@ void setup()
   pinMode(mosfetPin, OUTPUT);
   pinMode(rotaryClockPin, INPUT);
   pinMode(rotaryDataPin, INPUT);
-  pinMode(rotaryToggleButtonPin, INPUT);
+  pinMode(rotaryToggleButtonPin, INPUT_PULLUP);
   digitalWrite(mosfetPin, HIGH);
   digitalWrite(rotaryDataPin, HIGH);
   digitalWrite(rotaryClockPin, HIGH);
   //Start temperature timer
   temperatureReadTimer = millis();
-  //Connect via serial
-  Serial.begin(9600);
 }
 
 
@@ -96,9 +93,9 @@ void loop() {
   }
   //Enable or disable the soldering iron
   if (currentTemp >= configuredTemperature) {
-    digitalWrite(mosfetPin, HIGH);
-  } else {
     digitalWrite(mosfetPin, LOW);
+  } else {
+    digitalWrite(mosfetPin, HIGH);
   }
 }
 
@@ -108,13 +105,15 @@ void updateConfiguredTemp() {
   rotaryState = (digitalRead(rotaryClockPin) << 1) | digitalRead(rotaryDataPin);
   if (rotaryState != rotaryPrevState) {
     if (rotaryState == nextEncoderState[rotaryPrevState]) {
-      if (configuredTemperature < 420) {
-        configuredTemperature = configuredTemperature + 5;
-      }
+      configuredTemperature = configuredTemperature + 5;
     } else if (rotaryState == prevEncoderState[rotaryPrevState]) {
-      if (configuredTemperature > 0) {
-        configuredTemperature = configuredTemperature - 5;
-      }
+      configuredTemperature = configuredTemperature - 5;
+    }
+    if (configuredTemperature > 420) {
+      configuredTemperature = 420;
+    }
+    if (configuredTemperature < 0) {
+      configuredTemperature = 0;
     }
     rotaryPrevState = rotaryState;
   }
