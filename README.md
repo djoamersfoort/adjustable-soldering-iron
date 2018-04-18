@@ -14,17 +14,23 @@ This project is aimed at members of DJO Amersfoort and therefor uses a fairly sp
 
 ![schematic image](schematic.png)
 
+Components like the MAX6675 module and the 4 digit display are provided as "3d models" in the zip of the same name.
+
 ## License
 
 The software is made by:
 
-- Jelmer van Arnhem
+- Jelmer van Arnhem ([Github](https://github.com/Jelmerro))
 - Camiël vd Niet
-- Sieuwe Elferink
+- Sieuwe Elferink ([Github](https://github.com/sieuwe1))
 
 The schematic is made by:
 
 - Tjalling Brouwer
+
+The 3d models are made by:
+
+- Huub ([Github](https://github.com/Luxtech))
 
 DJO Amersfoort holds the copyright for all files in this repository,
 but they can be copied under the terms of the MIT license, see the LICENSE for details.
