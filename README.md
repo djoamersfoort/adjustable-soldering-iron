@@ -18,6 +18,10 @@ Components like the MAX6675 module and the 4 digit display are provided as "3d m
 
 ## License
 
+Original concept by:
+
+- Tjalling Brouwer
+
 The software is made by:
 
 - Jelmer van Arnhem ([Github](https://github.com/Jelmerro))
